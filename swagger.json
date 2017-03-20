@@ -1,0 +1,127 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Office Quotes",
+    "description": "API for Office Quotes",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Swagger API Team"
+    },
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "host": "officequotes.herokuapp.com",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/quotes": {
+      "get": {
+        "description": "Returns all quotes",
+        "operationId": "getAllQuotes",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token for access",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "quotes",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"  
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quote": {
+      "get": {
+        "description": "Returns single random quote",
+        "operationId": "getRandomQuote",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token for access",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "quote",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "creates a new quote",
+        "operationId": "addQuote",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "payload",
+            "in": "body",
+            "description": "quote to add",
+            "required": true,
+            "schema": {
+              "required": [
+                "quote", "author"
+              ],
+              "properties": {
+                "quote": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token for access",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "quote response",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {}
+}

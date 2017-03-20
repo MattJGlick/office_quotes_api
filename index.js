@@ -2,6 +2,13 @@ var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
 var pg = require('pg');
+var swaggerDoc = require('./swagger.json');
+var swaggerTools = require('swagger-tools');
+
+swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
+    // Serve the Swagger documents and Swagger UI
+    app.use(middleware.swaggerUi());
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

@@ -20,6 +20,8 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "pg": "^6.1.4"
+    "pg": "^6.1.4",
+    "swagger-tools": "^0.10.1",
+    "swagger-ui": "^3.0.2"
   }
 }
