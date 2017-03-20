@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var pg = require('pg');
 var swaggerDoc = require('./swagger.json');
 var swaggerTools = require('swagger-tools');
+var uuid = require('uuid');
 
 swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
     // Serve the Swagger documents and Swagger UI
@@ -17,6 +18,7 @@ var port = process.env.PORT || 3000;
 var connString = process.env.POSTGRES_STRING;
 
 const INSERT_QUOTE_STRING = 'INSERT INTO quotes (quote, author, submitter) VALUES ($1, $2, $3);'
+const INSERT_API_KEY = 'INSERT INTO api_keys (api_key, name) VALUES ($1, $2);'
 const GET_RANDOM_QUOTE_STRING = 'SELECT quote, author FROM quotes OFFSET floor(random()*(SELECT COUNT(*) FROM quotes)) LIMIT 1;'
 const GET_ALL_QUOTES_STRING = 'SELECT quote, author FROM quotes;'
 const CHECK_API_KEY_STRING = 'SELECT id FROM api_keys WHERE api_key = $1;'
@@ -26,7 +28,7 @@ client.connect();
 
 // ROUTES FOR OUR API
 // // =============================================================================
-var router = express.Router();             
+var router = express.Router();
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
@@ -40,8 +42,8 @@ router.use(function(req, res, next) {
 
             next();
         } else {
-            return res.status(401).send({ 
-                success: false, 
+            return res.status(401).send({
+                success: false,
                 message: "bad token"
             });
         }
@@ -63,9 +65,9 @@ router.route('/quotes')
 
 router.route('/quote')
     .post(function(req, res, next) {
-        quote = req.body.quote; 
-        author = req.body.author; 
-        submitter = req.user_id; 
+        quote = req.body.quote;
+        author = req.body.author;
+        submitter = req.user_id;
 
         if (quote && author && submitter) {
             client.query(INSERT_QUOTE_STRING, [quote, author, submitter], function (err, result) {
@@ -97,6 +99,30 @@ router.route('/quote')
                 });
         });
     });
+
+router.route('/api_key')
+    .post(function(req, res, next) {
+        name = req.body.name;
+        api_key = uuid.v4();
+
+        if (name && api_key) {
+            client.query(INSERT_API_KEY, [api_key, name], function (err, result) {
+                if (err) return next(err);
+
+                res.status(200)
+                    .json({
+                        status: 'success',
+                        "token": api_key
+                    });
+            });
+        } else {
+            res.status(422)
+                .json({
+                    status: false,
+                    message: "missing something"
+                });
+        }
+    })
 
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });

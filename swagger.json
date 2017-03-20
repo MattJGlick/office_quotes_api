@@ -121,6 +121,48 @@
           }
         }
       }
+    },
+    "/api_key": {
+      "post": {
+        "description": "adds a new api key",
+        "operationId": "addApiKey",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "payload",
+            "in": "body",
+            "description": "quote to add",
+            "required": true,
+            "schema": {
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "token for access",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "new api",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {}
