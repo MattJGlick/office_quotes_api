@@ -1,0 +1,24 @@
+{
+  "name": "office_quotes_api",
+  "version": "1.0.0",
+  "description": "App that tweets quotes from the office",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattJGlick/office_quotes_api.git"
+  },
+  "author": "Matt Glick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MattJGlick/office_quotes_api/issues"
+  },
+  "homepage": "https://github.com/MattJGlick/office_quotes_api#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "pg": "^6.1.4"
+  }
+}
